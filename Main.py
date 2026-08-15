@@ -63,4 +63,18 @@ class Hospital:
                 print(f"Patient found: ID: {patient.patient_id}, Name: {patient.name}, Age: {patient.age}, Disease: {patient.disease}")
                 return
         print(f"Patient with ID {patient_id} not found.")
-        
+
+class Doctor():
+    def __init__(self, doctor_id, name, specialization):
+        self.doctor_id = doctor_id
+        self.name = name
+        self.specialization = specialization
+
+    def show_info(self):
+        print(f"Doctor ID: {self.doctor_id}, Name: {self.name}, Specialization: {self.specialization}")
+
+    def show_appointments(self):
+        print(f"Appointments for Dr. {self.name}:")
+        for appointment in self.appointments:
+            if appointment.doctor == self:
+                print(f"Patient: {appointment.patient.name}, Date: {appointment.date}, Time: {appointment.time}")
