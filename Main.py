@@ -78,3 +78,5 @@ class Doctor():
         for appointment in self.appointments:
             if appointment.doctor == self:
                 print(f"Patient: {appointment.patient.name}, Date: {appointment.date}, Time: {appointment.time}")
+
+
