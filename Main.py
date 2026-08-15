@@ -100,3 +100,22 @@ class Patient():
         print(f"Patient information updated: ID: {self.patient_id}, Name: {self.name}, Disease: {self.disease}")
 
 
+class Appointment():
+    def __init__(self, doctor, patient, date, time):
+        self.doctor = doctor
+        self.patient = patient
+        self.date = date
+        self.time = time
+
+
+    
+    def cancel_appointment(self, appointment):
+        if appointment in self.appointments:
+            self.appointments.remove(appointment)
+            print(f"Appointment for {appointment.patient.name} with Dr. {appointment.doctor.name} on {appointment.date} at {appointment.time} canceled.")
+        else:
+            print(f"Appointment not found in the hospital.")
+
+
+
+
