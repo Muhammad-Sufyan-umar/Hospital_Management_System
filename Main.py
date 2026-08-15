@@ -121,3 +121,128 @@ class Appointment():
 
 
 
+def Menu():
+    obj = Hospital()
+
+    while True:
+
+        print("\n========== Hospital Management System ==========")
+        print("1. Add Doctor")
+        print("2. Add Patient")
+        print("3. Schedule Appointment")
+        print("4. Display Doctors")
+        print("5. Display Patients")
+        print("6. Display Appointments")
+        print("7. Search Patient by ID")
+        print("8. Exit")
+
+        choice = input("Enter your choice 1-8: ")
+
+        # Add Doctor
+        if choice == '1':
+
+            doctor_id = input("Enter Doctor ID: ")
+            name = input("Enter Doctor Name: ")
+            specialization = input("Enter Specialization: ")
+
+            doctor = Doctor(
+                doctor_id,
+                name,
+                specialization
+            )
+
+            obj.add_doctor(doctor)
+
+        # Add Patient
+        elif choice == '2':
+
+            patient_id = input("Enter Patient ID: ")
+            name = input("Enter Patient Name: ")
+            age = input("Enter Patient Age: ")
+            disease = input("Enter Disease: ")
+
+            patient = Patient(
+                patient_id,
+                name,
+                age,
+                disease
+            )
+
+            obj.add_patient(patient)
+
+        # Schedule Appointment
+        elif choice == '3':
+
+            if not obj.doctors:
+                print("No doctors available.")
+                continue
+
+            if not obj.patients:
+                print("No patients available.")
+                continue
+
+            doctor_id = input("Enter Doctor ID: ")
+            patient_id = input("Enter Patient ID: ")
+
+            doctor = None
+            patient = None
+
+            # Find doctor
+            for d in obj.doctors:
+                if d.doctor_id == doctor_id:
+                    doctor = d
+                    break
+
+            # Find patient
+            for p in obj.patients:
+                if p.patient_id == patient_id:
+                    patient = p
+                    break
+
+            if doctor is None:
+                print("Doctor not found.")
+                continue
+
+            if patient is None:
+                print("Patient not found.")
+                continue
+
+            date = input("Enter Appointment Date: ")
+            time = input("Enter Appointment Time: ")
+
+            obj.schedule_appointment(
+                doctor,
+                patient,
+                date,
+                time
+            )
+
+        # Display Doctors
+        elif choice == '4':
+            obj.display_doctors()
+
+        # Display Patients
+        elif choice == '5':
+            obj.display_patients()
+
+        # Display Appointments
+        elif choice == '6':
+            obj.display_appointments()
+
+        # Search Patient
+        elif choice == '7':
+
+            patient_id = input("Enter Patient ID: ")
+
+            obj.search_patient(patient_id)
+
+        # Exit
+        elif choice == '8':
+            print("Thank you for using Hospital Management System.")
+            break
+
+        else:
+            print("Invalid choice. Please enter 1-8.")
+
+
+Menu()
