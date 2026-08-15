@@ -80,3 +80,23 @@ class Doctor():
                 print(f"Patient: {appointment.patient.name}, Date: {appointment.date}, Time: {appointment.time}")
 
 
+class Patient():
+    def __init__(self, patient_id,name, age, disease):
+        self.patient_id = patient_id
+        self.name = name
+        self.age = age
+        self.disease = disease
+
+    def show_info(self):
+        print(f"Patient ID: {self.patient_id}, Name: {self.name}, Age: {self.age}, Disease: {self.disease}")
+
+    def update_info(self, patient_id=None, name=None, disease=None):
+        if patient_id:
+            self.patient_id = patient_id
+        if name:
+            self.name = name
+        if disease:
+            self.disease = disease
+        print(f"Patient information updated: ID: {self.patient_id}, Name: {self.name}, Disease: {self.disease}")
+
+
