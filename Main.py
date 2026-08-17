@@ -9,14 +9,7 @@ class Hospital:
     def add_patient(self, patient):
         self.patients.append(patient)
         print(f"Patient {patient.name} added to the hospital.")
-    def add_doctor(self, doctorr):
-        self.doctors.append(doctorr)
-        print(f"Doctor {doctorr.name} added to the hospital.")
 
-    def schedule_appointment(self, doctor, patient, date, time):
-        appointment = Appointment(doctor, patient, date, time)
-        self.appointments.append(appointment)
-        print(f"Appointment scheduled for {patient.name} with Dr. {doctor.name} on {date} at {time}.")
 
     def remove_patient(self, patient):
         if patient in self.patients:
@@ -25,21 +18,6 @@ class Hospital:
         else:
             print(f"Patient {patient.name} not found in the hospital.")
 
-    def remove_doctor(self, doctor):
-        if doctor in self.doctors:
-            self.doctors.remove(doctor)
-            print(f"Doctor {doctor.name} removed from the hospital.")
-        else:
-            print(f"Doctor {doctor.name} not found in the hospital.")
-
-
-    def display_doctors(self):
-        if self.doctors:
-            print("Doctors in the hospital: ")
-            for doctor in self.doctors:
-                print(f"ID: {doctor.doctor_id}, Name: {doctor.name}, Specialization: {doctor.specialization}")
-        else:
-            print("No doctors available in the hospital.")
 
     def display_patients(self):
         if self.patients:
@@ -49,6 +27,45 @@ class Hospital:
         else:
             print("No patients available in the hospital.")
 
+
+    def add_doctor(self, doctor):
+        self.doctors.append(doctor)
+        print(f"Doctor {doctor.name} added to the hospital.")
+
+
+    def remove_doctor(self, doctor):
+        if doctor in self.doctors:
+            self.doctors.remove(doctor)
+            print(f"Doctor {doctor.name} removed from the hospital.")
+        else:
+            print(f"Doctor {doctor.name} not found in the hospital.")
+
+
+
+    def display_doctors(self):
+        if self.doctors:
+            print("Doctors in the hospital: ")
+            for doctor in self.doctors:
+                print(f"ID: {doctor.doctor_id}, Name: {doctor.name}, Specialization: {doctor.specialization}")
+        else:
+            print("No doctors available in the hospital.")
+    
+    
+    def search_patient(self, patient_id):
+        for patient in self.patients:
+            if patient.patient_id == patient_id:
+                print(f"Patient found: ID: {patient.patient_id}, Name: {patient.name}, Age: {patient.age}, Disease: {patient.disease}")
+                return
+        print(f"Patient with ID {patient_id} not found.")
+
+
+
+    def schedule_appointment(self, doctor, patient, date, time):
+        appointment = Appointment(doctor, patient, date, time)
+        self.appointments.append(appointment)
+        print(f"Appointment scheduled for {patient.name} with Dr. {doctor.name} on {date} at {time}.")
+
+
     def display_appointments(self):
         if self.appointments:
             print("Appointments in the hospital:")
@@ -57,12 +74,15 @@ class Hospital:
         else:
             print("No appointments scheduled in the hospital.")
 
-    def search_patient(self, patient_id):
-        for patient in self.patients:
-            if patient.patient_id == patient_id:
-                print(f"Patient found: ID: {patient.patient_id}, Name: {patient.name}, Age: {patient.age}, Disease: {patient.disease}")
-                return
-        print(f"Patient with ID {patient_id} not found.")
+
+    def cancel_appointment(self, appointment):  
+            if appointment in self.appointments:
+                self.appointments.remove(appointment)
+                print(f"Appointment for {appointment.patient.name} with Dr. {appointment.doctor.name} on {appointment.date} at {appointment.time} canceled.")
+            else:
+                print(f"Appointment not found in the hospital.")
+    
+    
 
 class Doctor():
     def __init__(self, doctor_id, name, specialization):
@@ -73,12 +93,7 @@ class Doctor():
     def show_info(self):
         print(f"Doctor ID: {self.doctor_id}, Name: {self.name}, Specialization: {self.specialization}")
 
-    def show_appointments(self):
-        print(f"Appointments for Dr. {self.name}:")
-        for appointment in self.appointments:
-            if appointment.doctor == self:
-                print(f"Patient: {appointment.patient.name}, Date: {appointment.date}, Time: {appointment.time}")
-
+    
 
 class Patient():
     def __init__(self, patient_id,name, age, disease):
@@ -108,17 +123,6 @@ class Appointment():
         self.time = time
 
 
-    
-    def cancel_appointment(self, appointment):
-        if appointment in self.appointments:
-            self.appointments.remove(appointment)
-            print(f"Appointment for {appointment.patient.name} with Dr. {appointment.doctor.name} on {appointment.date} at {appointment.time} canceled.")
-        else:
-            print(f"Appointment not found in the hospital.")
-
-
-
-
 
 
 def Menu():
@@ -134,9 +138,10 @@ def Menu():
         print("5. Display Patients")
         print("6. Display Appointments")
         print("7. Search Patient by ID")
-        print("8. Exit")
+        print("8. Cancel Appiontment.")
+        print("9. Exit")
 
-        choice = input("Enter your choice 1-8: ")
+        choice = input("Enter your choice 1-9: ")
 
         # Add Doctor
         if choice == '1':
@@ -236,8 +241,37 @@ def Menu():
 
             obj.search_patient(patient_id)
 
+        #Cancel appointment
+        elif choice =='8':
+
+            if not obj.appointments:
+                print("No appointments Availale: ")
+                continue
+
+            doctor=input("Enter doctor Name: ")
+            patient=input("Enter Patient name: ")
+            date=input("Enter date: ")
+            time=input("Enter time: ")
+
+            appointment=None
+
+            for i in obj.appointments:
+                if (
+                    i.doctor.doctor_id==doctor_id
+                    and i.patient.patient_id==patient_id
+                    and i.date==date
+                    and i.time==time):
+
+                    appointment=i
+                    break
+
+                if appointment:
+                    obj.cancel_appointment(appointment)
+                else:
+                    print("Appointment Not found..")
+
         # Exit
-        elif choice == '8':
+        elif choice == '9':
             print("Thank you for using Hospital Management System.")
             break
 
